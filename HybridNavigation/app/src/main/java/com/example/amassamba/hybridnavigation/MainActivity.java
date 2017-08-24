@@ -196,7 +196,6 @@ public class MainActivity extends AppCompatActivity implements SensorEventListen
             if (active == 0) {
                 // enregistrer
 
-
                 accez[cpt] = z;
                 //Conversion and put of x,y,z values on the interface
                 cpt = cpt + 1;
@@ -205,11 +204,13 @@ public class MainActivity extends AppCompatActivity implements SensorEventListen
                 String zValue = String.valueOf(z);
                 Zacce.setText(zValue);
                 //steps.setText(String.valueOf(pas));
-                steps.setText(String.valueOf(zList));
+                //steps.setText(String.valueOf(zList));
                 //indice=moyenne(zList);
                // pas=peakDetection(zList,50,28);
-                peakDetection(zList,50,28);
 
+
+                steps.setText(String.valueOf(cpt));
+                peakDetection(zList,cpt);
             }
 
         }
@@ -285,7 +286,7 @@ public class MainActivity extends AppCompatActivity implements SensorEventListen
         }
         return indices;
     }
-    private List<Integer> peakDetection( List<Float> listeAcce,int intervAnalyse, int diviseur){
+    private List<Integer> peakDetection( List<Float> listeAcce, int compteur){
         List<List<Float>> listeIntervalles = new ArrayList<>();
         List<List<Integer>> T=new ArrayList<>();
         List<Integer> multiple2diviseur = new ArrayList<>();
@@ -293,12 +294,23 @@ public class MainActivity extends AppCompatActivity implements SensorEventListen
         List<Float> picsValues = new ArrayList<>();
         List<Integer>  finalIndicesPics = new ArrayList<>();
         List<Integer> NL=new ArrayList<>();
-        for (int i=0; i<listeAcce.size();i++){
-            if (i%diviseur==0){
-                listeIntervalles.add(listeAcce.subList(i,i+intervAnalyse));
-                multiple2diviseur.add(i);
+        List<Integer>listeMultiples= new ArrayList<>();
+
+        //for (int i=0; i<listeAcce.size();i++) {
+            if ((compteur%50 == 0)&& compteur != 0) {
+
+               multiple2diviseur.add(compteur);
+               listeIntervalles.add(listeAcce.subList(compteur - 50, compteur));
+
+
+
+                    //}
+                    //
+
             }
-        }
+        //}
+
+
         /*for (int i=0; i<listeIntervalles.size();i++){
               T.add(maxi(listeIntervalles.get(i)));
         }
