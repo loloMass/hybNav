@@ -210,7 +210,7 @@ public class MainActivity extends AppCompatActivity implements SensorEventListen
 
 
                 steps.setText(String.valueOf(cpt));
-                peakDetection(zList,cpt);
+                peakDetection(zList);
             }
 
         }
@@ -286,24 +286,28 @@ public class MainActivity extends AppCompatActivity implements SensorEventListen
         }
         return indices;
     }
-    private List<Integer> peakDetection( List<Float> listeAcce, int compteur){
-        List<List<Float>> listeIntervalles = new ArrayList<>();
+
+    List<List<Float>> listeIntervalles = new ArrayList<>();
+    List<Integer> multiple2diviseur = new ArrayList<>();
+
+    private List<Integer> peakDetection( List<Float> listeAcce){
+
         List<List<Integer>> T=new ArrayList<>();
-        List<Integer> multiple2diviseur = new ArrayList<>();
+
         List<Integer> realIndicePics = new ArrayList<>();
         List<Float> picsValues = new ArrayList<>();
         List<Integer>  finalIndicesPics = new ArrayList<>();
         List<Integer> NL=new ArrayList<>();
         List<Integer>listeMultiples= new ArrayList<>();
 
+
         //for (int i=0; i<listeAcce.size();i++) {
-            if ((compteur%50 == 0)&& compteur != 0) {
-
-               multiple2diviseur.add(compteur);
-               listeIntervalles.add(listeAcce.subList(compteur - 50, compteur));
+            if ((cpt%50 == 0)&& cpt != 0) {
 
 
-
+               listeIntervalles.add(listeAcce.subList(cpt - 50, cpt));
+                multiple2diviseur.add(cpt);
+                //compteur =compteur +1;
                     //}
                     //
 
