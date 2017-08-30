@@ -33,7 +33,11 @@ import java.io.InputStreamReader;
 
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Iterator;
 import java.util.List;
+import java.util.ListIterator;
+import java.util.Vector ;
+
 
 import static java.lang.Math.sqrt;
 
@@ -55,6 +59,8 @@ public class MainActivity extends AppCompatActivity implements SensorEventListen
     SensorManager sensorManager;
 
     int cpt = 0; // compteur
+    int cpt1=0;
+    int pas=0;
     int active = 0;
 
 
@@ -73,9 +79,11 @@ public class MainActivity extends AppCompatActivity implements SensorEventListen
     List<Float> yList = new ArrayList<>();
     List<Float> zList = new ArrayList<>();
     float indice=0;
-    List<Integer> pas = new ArrayList<>();
+    //List<Integer> pas = new ArrayList<>();
     List<Float> listAcce = new ArrayList<>();
-
+    float vect[]=new float[50];
+    int positionPas[]=new int[50];
+    Vector<Float> vecteur[]=new Vector[60000];
 
 
 
@@ -196,26 +204,62 @@ public class MainActivity extends AppCompatActivity implements SensorEventListen
             if (active == 0) {
                 // enregistrer
 
-                accez[cpt] = z;
+                //accez[cpt] = z;
+
+
                 //Conversion and put of x,y,z values on the interface
-                cpt = cpt + 1;
-                zList.add(z);
+                //cpt = cpt + 1;
+                //zList.add(z);
                 //
+
+
+                cpt1=cpt1+1;
+                if (cpt1==vect.length){
+                    cpt1=0;
+
+                }
+
+                vect[cpt1]=z;
+
+                for (int i=11; i<vect.length-11;i++){
+                    float acce_zero=moyenneTab(vect);
+                    for (int n=0; n<11;n++){
+                        if (vect[i] > vect[i - n] && vect[i] > vect[i + n] && vect[i]>acce_zero+2.5) {
+
+                            //pas=1;
+                            steps.setText(String.valueOf(i));
+                            //pas=1;
+
+                            //positionPas[pas]=i;
+
+                            //pas=pas+1;
+
+
+                        }
+
+                    }
+                }
+
+                //vecteur.add(vect[cpt1]);
+
+
+
                 String zValue = String.valueOf(z);
+               // steps.setText(String.valueOf(z));
                 Zacce.setText(zValue);
-                //steps.setText(String.valueOf(pas));
-                //steps.setText(String.valueOf(zList));
-                //indice=moyenne(zList);
-               // pas=peakDetection(zList,50,28);
 
 
-                steps.setText(String.valueOf(cpt));
-                peakDetection(zList);
+
+
+
+                //peakDetection(zList);
             }
+
 
         }
 
     }
+
 
 
     /*********************************************************************/
@@ -272,6 +316,18 @@ public class MainActivity extends AppCompatActivity implements SensorEventListen
 
     }
 
+    private Float moyenneTab(float tab[]){
+        int taille =tab.length;
+        int somme = 0;
+
+        for(int i = 0; i < taille; i++)
+        {
+            somme += tab[i];
+        }
+        return (float)somme / taille;
+
+    }
+
 
     private List<Integer> maxi(List<Float> liste1){
         List<Integer> indices=new ArrayList<>();
@@ -289,6 +345,7 @@ public class MainActivity extends AppCompatActivity implements SensorEventListen
 
     List<List<Float>> listeIntervalles = new ArrayList<>();
     List<Integer> multiple2diviseur = new ArrayList<>();
+    List<Integer>indices= new ArrayList<>();
 
     private List<Integer> peakDetection( List<Float> listeAcce){
 
@@ -300,22 +357,18 @@ public class MainActivity extends AppCompatActivity implements SensorEventListen
         List<Integer> NL=new ArrayList<>();
         List<Integer>listeMultiples= new ArrayList<>();
 
+        indices.add(cpt);
 
-        //for (int i=0; i<listeAcce.size();i++) {
-            if ((cpt%50 == 0)&& cpt != 0) {
-
-
-               listeIntervalles.add(listeAcce.subList(cpt - 50, cpt));
-                multiple2diviseur.add(cpt);
-                //compteur =compteur +1;
-                    //}
-                    //
-
-            }
-        //}
+            if ((cpt%28 == 0)&& cpt >28) {
+               listeIntervalles.add(listeAcce.subList(cpt-50, cpt));
 
 
-        /*for (int i=0; i<listeIntervalles.size();i++){
+              // T.add(maxi(listeAcce.subList(cpt-50, cpt)));
+               multiple2diviseur.add(cpt);
+        }
+
+
+       /* for (int i=0; i<listeIntervalles.size();i++){
               T.add(maxi(listeIntervalles.get(i)));
         }
         for (int i=0; i<T.size();i++){
