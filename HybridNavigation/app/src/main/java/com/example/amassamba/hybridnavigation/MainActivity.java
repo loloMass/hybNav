@@ -79,7 +79,7 @@ public class MainActivity extends AppCompatActivity implements SensorEventListen
     List<Float> yList = new ArrayList<>();
     List<Float> zList = new ArrayList<>();
     float indice=0;
-    //List<Integer> pas = new ArrayList<>();
+    List<String> stepCounter = new ArrayList<>();
     List<Float> listAcce = new ArrayList<>();
     float vect[]=new float[50];
     int positionPas[]=new int[50];
@@ -212,33 +212,41 @@ public class MainActivity extends AppCompatActivity implements SensorEventListen
                 //zList.add(z);
                 //
 
+                //steps.setText(cpt1);
 
                 cpt1=cpt1+1;
+                float acce_zero=moyenneTab(vect);
                 if (cpt1==vect.length){
+
                     cpt1=0;
-
-                }
-
-                vect[cpt1]=z;
-
-                for (int i=11; i<vect.length-11;i++){
-                    float acce_zero=moyenneTab(vect);
+                    //pas=pas+1;
+                } else if (cpt1>10 && cpt1<40){
                     for (int n=0; n<11;n++){
-                        if (vect[i] > vect[i - n] && vect[i] > vect[i + n] && vect[i]>acce_zero+2.5) {
-
-                            //pas=1;
-                            steps.setText(String.valueOf(i));
-                            //pas=1;
-
-                            //positionPas[pas]=i;
-
-                            //pas=pas+1;
+                        if (vect[cpt1] > vect[cpt1 - n]   && vect[cpt1] > vect[cpt1 + n] && vect[cpt1]>acce_zero+2.5) {
+                            pas=pas+1;
 
 
                         }
-
                     }
+
                 }
+
+                steps.setText(String.valueOf(pas));
+                vect[cpt1]=z;
+                stepCounter.add(steps.getText().toString());
+               // steps.setText(String.valueOf(cpt1));
+
+               /*float acce_zero=moyenneTab(vect);
+               for (int i=11; i<vect.length-11;i++){
+                    for (int n=0; n<11;n++){
+                        if (vect[i] > vect[i - n] && vect[i] > vect[i + n] && vect[i]>acce_zero+2.5) {
+
+                            steps.setText(String.valueOf(i));
+                            stepCounter.add(steps.getText().toString());
+                        }
+                    }
+
+                }*/
 
                 //vecteur.add(vect[cpt1]);
 
