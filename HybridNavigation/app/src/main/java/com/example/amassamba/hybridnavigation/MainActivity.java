@@ -60,6 +60,7 @@ public class MainActivity extends AppCompatActivity implements SensorEventListen
 
     int cpt = 0; // compteur
     int cpt1=0;
+    int cpt2=0;
     int pas=0;
     int active = 0;
 
@@ -81,8 +82,8 @@ public class MainActivity extends AppCompatActivity implements SensorEventListen
     float indice=0;
     List<String> stepCounter = new ArrayList<>();
     List<Float> listAcce = new ArrayList<>();
-    float vect[]=new float[50];
-    int positionPas[]=new int[50];
+    float vect[]=new float[100];
+    float vect2[]=new float[50];
     Vector<Float> vecteur[]=new Vector[60000];
 
 
@@ -213,48 +214,40 @@ public class MainActivity extends AppCompatActivity implements SensorEventListen
                 //
 
                 //steps.setText(cpt1);
-
-                cpt1=cpt1+1;
-                float acce_zero=moyenneTab(vect);
-                if (cpt1==vect.length){
-
-                    cpt1=0;
-                    //pas=pas+1;
-                } else if (cpt1>10 && cpt1<40){
-                    for (int n=0; n<11;n++){
-                        if (vect[cpt1] > vect[cpt1 - n]   && vect[cpt1] > vect[cpt1 + n] && vect[cpt1]>acce_zero+2.5) {
-                            pas=pas+1;
-
-
-                        }
-                    }
-
-                }
-
-                steps.setText(String.valueOf(pas));
                 vect[cpt1]=z;
+                cpt1=cpt1+1;
+
+               float acce_zero=moyenneTab(vect);
+
+               if (cpt1>vect.length-73 &&cpt1<vect.length-21){
+                    //vect2[cpt2]=vect[cpt1];
+                  vect2[cpt2]=z;
+                  cpt2=cpt2+1;
+
+                  if (cpt2==vect2.length){
+                   cpt2=0;
+                  }
+
+                  Zacce.setText(String.valueOf(cpt2));
+
+               }
+              else if (cpt1==vect.length){
+                   cpt1=0;
+              }
+
+               //
+                steps.setText(String.valueOf(cpt1));
+
                 stepCounter.add(steps.getText().toString());
-               // steps.setText(String.valueOf(cpt1));
 
-               /*float acce_zero=moyenneTab(vect);
-               for (int i=11; i<vect.length-11;i++){
-                    for (int n=0; n<11;n++){
-                        if (vect[i] > vect[i - n] && vect[i] > vect[i + n] && vect[i]>acce_zero+2.5) {
 
-                            steps.setText(String.valueOf(i));
-                            stepCounter.add(steps.getText().toString());
-                        }
-                    }
-
-                }*/
-
-                //vecteur.add(vect[cpt1]);
 
 
 
                 String zValue = String.valueOf(z);
                // steps.setText(String.valueOf(z));
-                Zacce.setText(zValue);
+
+                //Zacce.setText(zValue);
 
 
 
